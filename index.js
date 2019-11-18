@@ -29,7 +29,6 @@ app.get('/animal', async (req,res)=>{
         const [results] = await connection.query(
             'SELECT * FROM animal WHERE name LIKE ?',
             [req.query.name]);
-
         res.json(results);
     }catch(e){
         res.send(`db error ${e}`);
