@@ -6,9 +6,19 @@
 </head>
 <body>
     <h1>Demo static content</h1>
-    <form action="/animal">
+
+    <h2>getall</h2>
+    <a href='/animals'>get all</a>
+
+    <h2>search</h2>
+    <form action="/animal" method='get'>
         <input type='text' name='name' placeholder="dog">
         <input type='submit' value="search">
+    </form>
+    <h2>insert</h2>
+    <form action='/animal' method='post'>
+        <input type='text' name='name' placeholder="frog">
+        <input type='submit' value="insert">
     </form>
 </body>
 </html>

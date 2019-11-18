@@ -4,6 +4,8 @@ require('dotenv').config();
 
 const express = require('express');
 const connection = require('./model/db.js');
+const bodyParser = require('body-parser');
+
 
 const app = express();
 
@@ -32,6 +34,20 @@ app.get('/animal', async (req,res)=>{
         res.json(results);
     }catch(e){
         res.send(`db error ${e}`);
+    }
+});
+
+app.post('/animal', bodyParser.urlencoded(), async (req,res)=>{
+    console.log(req.body);
+    try{
+        const [result] = await connection.query(
+            'INSERT INTO animal (name) VALUES (?)',
+            [req.body.name]
+        );
+        res.json(result);
+    }catch(e){
+        console.log(e);
+        res.send('db error');
     }
 });
 
