@@ -13,8 +13,7 @@ app.use(express.static('public'));
 
 app.get('/animals', async (req,res) =>{
     try {
-        const results= await animal.getAll() ;
-        res.json(results);
+        res.json(await animal.getAll());
     }catch (e){
         console.log(e);
         res.send('db error');
@@ -25,8 +24,9 @@ app.get('/animal', async (req,res)=>{
     console.log(req.query);
     //res.send(`query param? ${req.query}`);
     try{
-        res.json= await animal.search(req.query.name);
+        res.json(await animal.search(req.query.name));
     }catch(e){
+        console.log(e);
         res.send(`db error`);
     }
 });
@@ -37,7 +37,7 @@ app.post('/animal', bodyParser.urlencoded({extended:true}), async (req,res)=>{
         res.json(animal.insert(req.body.name));
     }catch(e){
         console.log(e);
-        throw 'db error';
+        res.send('db error');
     }
 });
 
