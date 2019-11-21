@@ -5,9 +5,16 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const animal = require('./model/animal');
-
-
 const app = express();
+
+if(process.env.SERVER === 'dev_localhost') {
+    require('./secure/localhost')(app);
+} else {
+    require('./secure/server')(app);
+    app.listen(3000, ()=>{
+        console.log('server app start?')
+    });
+}
 
 app.use(express.static('public'));
 
@@ -42,8 +49,12 @@ app.post('/animal', bodyParser.urlencoded({extended:true}), async (req,res)=>{
 });
 
 
-app.get('/',(request,response)=>{
-    response.send('Hello from my Node server');
+app.get('/',(req,res)=>{
+    if(req.secure){
+        res.send('Hello secure');
+    } else {
+    response.send('Hello from my Node server unsecure');
+    }
 });
 
 app.get('/demo', (request,response)=>{
@@ -51,8 +62,8 @@ app.get('/demo', (request,response)=>{
     response.send('demo')
 });
 
-app.listen(3000, ()=>{
+/*app.listen(3000, ()=>{
     console.log('server app start?')
-});
+});*/
 
 
